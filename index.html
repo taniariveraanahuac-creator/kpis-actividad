@@ -7,7 +7,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%2210%22 fill=%22%2315803d%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=202611161830">
+<link rel="stylesheet" href="styles.css?v=202611161848">
 </head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <symbol id="i-ok" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -26,51 +26,50 @@
 <div class="stats"><div><b>3–5</b><span>personas por equipo</span></div><div><b>50 min</b><span>de trabajo</span></div><div><b>3 min</b><span>para exponer</span></div></div>
 </div>
 <aside class="board" aria-label="Ejemplo de semáforo"><h2>Así se lee un tablero</h2>
-<div class="kr ok"><svg aria-hidden="true"><use href="#i-ok"/></svg><div>Disponibilidad<small>Meta ≥ 95 %</small></div><em>97 %</em></div>
-<div class="kr wa"><svg aria-hidden="true"><use href="#i-wa"/></svg><div>Ventas de la semana<small>Meta $28,000 · 90 % cumplido</small></div><em>$25,200</em></div>
-<div class="kr ko"><svg aria-hidden="true"><use href="#i-ko"/></svg><div>Merma<small>Máximo 2.0 %</small></div><em>2.8 %</em></div>
+<div class="kr ok"><svg aria-hidden="true"><use href="#i-ok"/></svg><div>Disponibilidad<small>Meta ≥ 95 % · 102 % de cumplimiento</small></div><em>97 %</em></div>
+<div class="kr wa"><svg aria-hidden="true"><use href="#i-wa"/></svg><div>Ventas de la semana<small>Meta $28,000 · 90 % de cumplimiento</small></div><em>$25,200</em></div>
+<div class="kr ko"><svg aria-hidden="true"><use href="#i-ko"/></svg><div>Merma<small>Máximo 2.0 % · 71 % de cumplimiento</small></div><em>2.8 %</em></div>
 <p>Valores ilustrativos: tu macro trae los datos de tu caso.</p></aside></div></header>
 <section id="como"><div class="w"><h2 class="t">Cómo se trabaja</h2><p class="sub">Equipos de 3 a 5 personas · 50 minutos de trabajo + 3 minutos por equipo para exponer.</p>
 <div class="steps">
 <div class="step"><b>1</b><strong>Elige tu grupo y equipo</strong><p>Cada equipo tiene un caso distinto.</p><span class="tm">2 min</span></div>
 <div class="step"><b>2</b><strong>Descarga la macro</strong><p>Excel con datos, fórmulas, semáforo y gráficos ya armados.</p><span class="tm">3 min</span></div>
-<div class="step"><b>3</b><strong>Analiza y completa</strong><p>Ficha técnica de los KPIs 2 y 3 y plan de acción.</p><span class="tm">45 min</span></div>
-<div class="step"><b>4</b><strong>Presenta</strong><p>Hallazgo, decisión y plan, en 3 minutos.</p><span class="tm">3 min por equipo</span></div></div></div></section>
+<div class="step"><b>3</b><strong>Analiza y completa</strong><p>Lee el semáforo, llena la ficha técnica y el plan de acción.</p><span class="tm">45 min</span></div>
+<div class="step"><b>4</b><strong>Presenta</strong><p>¿Cómo vamos? ¿Qué pasa? ¿Qué haremos?</p><span class="tm">3 min por equipo</span></div></div></div></section>
 <section id="horario" class="alt"><div class="w"><h2 class="t">Calendario y horario</h2><p class="sub">Días en que la actividad está abierta y agenda de la sesión. Mientras esté cerrada no se puede elegir equipo ni descargar la macro.</p>
 <div class="two"><div class="card"><div class="ch"><button class="ico cn" data-d="-1" aria-label="Mes anterior">‹</button><h3 id="calT"></h3><button class="ico cn" data-d="1" aria-label="Mes siguiente">›</button></div><div id="cal" class="cal"></div><div id="stat" class="stat" role="status"></div></div>
 <div class="card"><h3>Agenda de la sesión</h3><div id="agenda" class="ag"></div>
 <div id="admin" hidden><h3 style="margin-top:22px">Editar horario (docente)</h3><div class="af"><label>Apertura<input type="datetime-local" id="sOpen"></label><label>Cierre<input type="datetime-local" id="sClose"></label></div><button class="btn p" id="saveSch">Guardar horario</button><div class="msg" id="schMsg" role="status"></div></div></div></div></div></section>
-<section id="casos"><div class="w"><h2 class="t">Casos por equipo</h2><p class="sub">Elige tu equipo y tu rol (máximo 5 personas). Entraste con tu clave, así que tu nombre ya está identificado. Cada macro tiene 73 fórmulas: no las borres, cambia solo las celdas azules.</p>
+<section id="casos"><div class="w"><h2 class="t">Casos por equipo</h2><p class="sub">Elige tu equipo y tu rol (máximo 5 personas). Entraste con tu clave, así que tu nombre ya está identificado. El Excel hace las cuentas: tú solo escribes en las celdas azules.</p>
 <div class="seg" id="tabs" role="tablist" aria-label="Grupo"></div><div id="roster" class="roster"></div><div class="grid" id="grid" role="tabpanel"></div></div></section>
-<section id="tutorial"><div class="w"><h2 class="t">Tutorial paso a paso</h2><p class="sub">Sigue estos siete pasos con tu macro abierta. Cada uno se despliega.</p><div class="tut" id="tut"></div><div class="card" style="margin-top:14px"><h3>Tabulador del semáforo (acuerdo de la clase)</h3><div id="tabu"></div><p class="em">Cada empresa fija sus propios umbrales; este es el acuerdo de la clase.</p></div><div class="card" style="margin-top:14px"><h3>Errores frecuentes</h3><div class="chips" id="errs"></div></div></div></section>
+<section id="tutorial"><div class="w"><h2 class="t">Tutorial paso a paso</h2><p class="sub">Cinco pasos con tu macro abierta. Cada uno se despliega.</p><div class="tut" id="tut"></div><div class="card" style="margin-top:14px"><h3>El semáforo: una sola regla para todos los KPIs</h3><div id="tabu"></div><p class="em">↑ Más es mejor (ventas, pedidos a tiempo): real ÷ meta. ↓ Menos es mejor (merma, errores, quejas): meta ÷ real. El Excel lo calcula por ti.</p></div><div class="card" style="margin-top:14px"><h3>Errores frecuentes</h3><div class="chips" id="errs"></div></div></div></section>
 <section id="ejemplo" class="alt"><div class="w"><h2 class="t">Ejemplo resuelto</h2><p class="sub">Caso ilustrativo (no es uno de los 10 equipos) para ver cómo se ve un trabajo completo.</p><div class="ex" id="ex"></div></div></section>
 <section id="entrega"><div class="w"><h2 class="t">Qué se entrega</h2><p class="sub">Excel completado + exposición de 3 minutos.</p>
 <div class="two"><div class="card"><h3>Tres entregables</h3><div class="del">
-<div><b>1</b><span><strong>Ficha técnica</strong><p>KPIs 2 y 3 con los 8 datos: fórmula, unidad, periodo, fuente, responsable, línea base, meta y sentido.</p></span></div>
-<div><b>2</b><span><strong>Lectura del tablero</strong><p>Qué dice el semáforo de cada KPI y qué relación hay entre los tres.</p></span></div>
-<div><b>3</b><span><strong>Plan de acción</strong><p>Acción, responsable, fecha y cómo comprobarán que funcionó.</p></span></div></div>
+<div><b>1</b><span><strong>Ficha técnica</strong><p>KPIs 2 y 3 con 5 datos: qué mide, fórmula, unidad, meta y responsable.</p></span></div>
+<div><b>2</b><span><strong>Semáforo</strong><p>El color de cada KPI con su % de cumplimiento.</p></span></div>
+<div><b>3</b><span><strong>Plan de acción</strong><p>Qué está pasando, qué harán, quién y cuándo.</p></span></div></div>
 <h3 style="margin-top:22px">Antes de exponer</h3><div class="chk" id="chk"></div><div class="prog" id="prog" aria-live="polite"></div></div>
 <div class="card"><h3>Rúbrica · 10 puntos</h3>
-<div class="rb"><div><span>Fichas técnicas completas y medibles</span><b>3</b></div><div class="bar"><i style="width:30%"></i></div></div>
-<div class="rb"><div><span>Interpretación correcta del semáforo y las brechas</span><b>2</b></div><div class="bar"><i style="width:20%"></i></div></div>
-<div class="rb"><div><span>Diagnóstico con hipótesis y relación entre indicadores</span><b>2</b></div><div class="bar"><i style="width:20%"></i></div></div>
-<div class="rb"><div><span>Plan de acción con responsable, fecha y validación</span><b>2</b></div><div class="bar"><i style="width:20%"></i></div></div>
-<div class="rb"><div><span>Exposición clara y decisión justificada</span><b>1</b></div><div class="bar"><i style="width:10%"></i></div></div>
+<div class="rb"><div><span>Ficha técnica completa</span><b>3</b></div><div class="bar"><i style="width:30%"></i></div></div>
+<div class="rb"><div><span>Semáforo bien leído</span><b>3</b></div><div class="bar"><i style="width:30%"></i></div></div>
+<div class="rb"><div><span>Plan de acción</span><b>2</b></div><div class="bar"><i style="width:20%"></i></div></div>
+<div class="rb"><div><span>Exposición</span><b>2</b></div><div class="bar"><i style="width:20%"></i></div></div>
 <div class="tot"><span>Total</span><span>10</span></div>
 <div class="leg"><div style="background:var(--okb);color:var(--ok)"><svg aria-hidden="true"><use href="#i-ok"/></svg><span style="color:var(--tx)"><b>Verde:</b> cumple la meta</span></div>
 <div style="background:var(--wab);color:var(--wa)"><svg aria-hidden="true"><use href="#i-wa"/></svg><span style="color:var(--tx)"><b>Amarillo:</b> vigilar</span></div>
 <div style="background:var(--kob);color:var(--ko)"><svg aria-hidden="true"><use href="#i-ko"/></svg><span style="color:var(--tx)"><b>Rojo:</b> actuar ya</span></div></div></div></div></div></section>
-<section id="rubrica" class="alt"><div class="w"><h2 class="t">Rúbrica de evaluación</h2><p class="sub">Cuatro niveles por criterio. Marca uno en cada fila para calcular el puntaje sobre 10.</p><div id="rub"></div><div class="tot2" aria-live="polite"><span>Puntaje</span><span id="rtot">0 / 10</span></div><div class="rbtn"><button class="btn g" id="rubReset">Limpiar rúbrica</button><button class="btn g" id="rubPrint">Imprimir o guardar en PDF</button></div></div></section>
+<section id="rubrica" class="alt"><div class="w"><h2 class="t">Rúbrica de evaluación</h2><p class="sub">Cuatro criterios. Marca un nivel en cada fila para calcular el puntaje sobre 10.</p><div id="rub"></div><div class="tot2" aria-live="polite"><span>Puntaje</span><span id="rtot">0 / 10</span></div><div class="rbtn"><button class="btn g" id="rubReset">Limpiar rúbrica</button><button class="btn g" id="rubPrint">Imprimir o guardar en PDF</button></div></div></section>
 <section id="tablero" hidden><div class="w"><h2 class="t">Tablero de KPIs</h2><p class="sub">Vista docente de los 10 casos: cómo debería verse el semáforo de cada equipo con el tabulador de la clase. Úsalo como clave de respuestas al revisar las exposiciones.</p>
 <div class="card dfl"><div><span class="fl">Grupo</span><div class="fchips" id="dfg"></div></div><div><span class="fl">Semáforo</span><div class="fchips" id="dfs"></div></div><div><span class="fl">Mes a evaluar · <b id="dmv">Mes 6</b></span><input type="range" id="dm" min="1" max="6" value="6" aria-label="Mes a evaluar"></div></div>
 <div class="dk" id="dk"></div>
 <div class="two dtw"><div class="card"><h3>Semáforo por caso</h3><div id="dc1" class="sb"></div><div class="leg2"><span><i class="ok"></i>Verde</span><span><i class="wa"></i>Amarillo</span><span><i class="ko"></i>Rojo</span></div></div>
-<div class="card"><h3>Real ÷ meta × 100</h3><p class="em" style="margin-top:0">La línea marca el 100 %. En los KPIs ↓ máximo, pasar de 100 % es malo.</p><div id="dc2" class="pb"></div></div></div>
+<div class="card"><h3>% de cumplimiento</h3><p class="em" style="margin-top:0">La línea marca el 100 %: a la derecha cumple la meta. Verde ≥ 100 %, amarillo 90–99.9 %, rojo &lt; 90 %.</p><div id="dc2" class="pb"></div></div></div>
 <div class="card" style="margin-top:14px"><div class="rh"><h3>Evolución de 6 meses</h3><select id="dcs" aria-label="Caso"></select></div><div id="dc3" class="lcs"></div></div>
 </div></section>
 <section id="docente" class="alt" hidden><div class="w"><h2 class="t">Panel docente</h2><p class="sub">Vista completa de los dos grupos: asigna o mueve estudiantes, descarga la lista de equipos y edita el horario en «Calendario y horario». Las claves y los nombres viven en tu hoja de Google (pestaña «Claves»), no en esta página; los equipos quedan registrados en la pestaña «Equipos».</p><div class="ex" id="pnl"></div><div class="cta" style="margin-top:16px"><button class="btn p" id="csv">Descargar lista de equipos (CSV)</button></div><div class="msg" id="pmsg" role="status"></div></div></section>
 <footer><div class="w">Los datos de los casos son ficticios y sirven solo para la actividad. Sustenta tus decisiones con los KPIs de tu macro.</div></footer>
-<script src="config.js?v=202611161830"></script>
-<script src="data/kpis.js?v=202611161830"></script>
-<script src="app.js?v=202611161830"></script>
+<script src="config.js?v=202611161848"></script>
+<script src="data/kpis.js?v=202611161848"></script>
+<script src="app.js?v=202611161848"></script>
 </body></html>

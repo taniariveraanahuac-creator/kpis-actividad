@@ -69,16 +69,17 @@ CASES = [
  }
 ]
 G = {"L": "Liderazgo", "A": "Administración"}
-TIPO = {"A": "↑ en %", "B": "↑ en pesos o puntos", "C": "↓ máximo"}
+TIPO = {"A": "↑ Más es mejor", "B": "↑ Más es mejor", "C": "↓ Menos es mejor"}
+
+
+def cumplimiento(t, v, m):
+    """% de cumplimiento: ↑ real ÷ meta × 100 · ↓ meta ÷ real × 100."""
+    return m / v * 100 if t == "C" else v / m * 100
 
 
 def semaforo(t, v, m):
-    r = round(v / m, 6)
-    if t == "A":
-        return "VERDE" if v >= m else ("AMARILLO" if round(m - v, 6) <= 5 else "ROJO")
-    if t == "B":
-        return "VERDE" if r >= 1 else ("AMARILLO" if r >= 0.85 else "ROJO")
-    return "VERDE" if r <= 1 else ("AMARILLO" if r <= 1.25 else "ROJO")
+    c = round(cumplimiento(t, v, m), 6)
+    return "VERDE" if c >= 100 else ("AMARILLO" if c >= 90 else "ROJO")
 
 
 rows, comp, meta = [], [], {}
@@ -87,8 +88,8 @@ for c in CASES:
     d, tb = wb["Datos"], wb["Tablero"]
     for k in range(3):
         name, tipo, m = tb.cell(14 + k, 1).value, tb.cell(14 + k, 2).value, tb.cell(14 + k, 3).value
-        t = "A" if "en %" in tipo else "B" if "pesos" in tipo else "C"
         pct = "*100" in str(tb.cell(5, 2 + k).value)
+        t = "C" if "↓" in str(tipo) else ("A" if pct else "B")
         unit = "%" if pct else ("$" if "$" in str(d.cell(4, 2 + 2 * k).value) else "")
         meta[f"{c['g']}{c['t']}-{k + 1}"] = [name, t, m, unit]
         for mes in range(6):
@@ -98,7 +99,7 @@ for c in CASES:
             v = a / b * (100 if pct else 1)
             comp.append([c["g"], c["t"], k + 1, mes + 1, round(v, 4)])
             rows.append([G[c["g"]], c["t"], c["n"], k + 1, name, TIPO[t], mes + 1, round(v, 4), m, unit,
-                         semaforo(t, v, m), round(v / m * 100, 2)])
+                         semaforo(t, v, m), round(cumplimiento(t, v, m), 2)])
 
 (ROOT / "data").mkdir(exist_ok=True)
 (ROOT / "data" / "kpis.js").write_text(

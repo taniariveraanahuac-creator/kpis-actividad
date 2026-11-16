@@ -42,7 +42,7 @@ if corte.empty:
 
 # ---- PÁGINA PRINCIPAL ----
 st.title("🚦 KPIs en acción · Tablero docente")
-st.caption(f"Liderazgo y Administración · semáforo calculado con el tabulador de la clase · mes {mes} de 6")
+st.caption(f"Liderazgo y Administración · semáforo: una sola regla con el % de cumplimiento · mes {mes} de 6")
 st.markdown("##")
 
 # KPIs PRINCIPALES
@@ -73,10 +73,10 @@ corte = corte.assign(Etiqueta=corte["Caso"] + " · " + corte["KPI"])
 fig_cump = px.bar(
     corte.sort_values("Cumplimiento"), x="Cumplimiento", y="Etiqueta", color="Semaforo", orientation="h",
     color_discrete_map=COLORES, category_orders={"Semaforo": ORDEN},
-    title="<b>Real ÷ meta × 100</b> (en ↓ máximo, menos es mejor)", template="plotly_white",
+    title="<b>% de cumplimiento</b> · verde ≥ 100 · amarillo 90–99.9 · rojo < 90", template="plotly_white",
 )
 fig_cump.add_vline(x=100, line_dash="dash", line_color="#4c5d6d")
-fig_cump.update_layout(plot_bgcolor="rgba(0,0,0,0)", yaxis_title=None, xaxis_title="% de la meta", legend_title=None, height=max(380, 26 * len(corte)))
+fig_cump.update_layout(plot_bgcolor="rgba(0,0,0,0)", yaxis_title=None, xaxis_title="% de cumplimiento", legend_title=None, height=max(380, 26 * len(corte)))
 
 st.plotly_chart(fig_caso, width="stretch")
 st.plotly_chart(fig_cump, width="stretch")

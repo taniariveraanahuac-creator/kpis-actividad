@@ -172,3 +172,5 @@ button:disabled{opacity:.6;cursor:progress}
 .lc .ln{fill:none;stroke-width:2.5;stroke:var(--c)}.lc .dt{fill:var(--c);stroke:var(--panel);stroke-width:2}
 .lcf{display:flex;gap:8px;align-items:center;font-size:13px;margin-top:4px}
 #dcs{min-height:40px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--tx);padding:0 10px;font:500 14px Inter,sans-serif;max-width:100%}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-block;padding:6px 12px;border-radius:999px;background:var(--kob);color:var(--ko);font-size:14px;font-weight:600}
