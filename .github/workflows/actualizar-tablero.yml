@@ -1,0 +1,28 @@
+name: Actualizar tablero de KPIs
+
+# Se ejecuta solo cuando cambias una macro (o a mano desde la pestaña Actions)
+on:
+  push:
+    paths: ["macros/**", "scripts/build_data.py"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install openpyxl
+      - run: python scripts/build_data.py
+      - name: Guardar cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
+          git add data/kpis.js dashboard/kpis_casos.xlsx
+          git diff --cached --quiet || git commit -m "Tablero actualizado desde las macros"
+          git push

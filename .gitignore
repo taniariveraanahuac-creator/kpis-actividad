@@ -1,0 +1,5 @@
+# Nunca subir claves ni listas de estudiantes
+Claves*.xlsx
+Base_*.xlsx
+*claves*
+.DS_Store
