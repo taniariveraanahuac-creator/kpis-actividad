@@ -62,7 +62,7 @@ API_URL: 'https://script.google.com/macros/s/XXXXXXXX/exec',
 
 | Quién | Cómo entra | Qué puede hacer |
 |---|---|---|
-| 🎓 Estudiante | Su clave personal (`L07-XXXXXX` o `A12-XXXXXX`) | Ver solo su grupo, unirse a un equipo con un rol, salir, descargar su macro |
+| 🎓 Estudiante | **Su matrícula + su correo institucional** (ej. `00633240` y `nombre@anahuac.mx`). Ya no hay que repartir claves | Ver solo su grupo, unirse a un equipo con un rol, salir, descargar su macro |
 | 🧑‍🏫 Docente | Clave `DOC-XXXXXXXX` | Ver los dos grupos, asignar o mover estudiantes, fijar el horario y descargar el CSV |
 
 - ⏰ **Horario:** el docente fija la apertura y el cierre en *Calendario y horario*. Fuera de ese horario los estudiantes no pueden inscribirse ni descargar.
@@ -104,7 +104,7 @@ Puedes verlo en la pestaña **Actions** del repositorio. Si cambias un caso, su 
 
 | Quiero… | Haz esto |
 |---|---|
-| Agregar un estudiante | Agrega una fila en **Claves** (`Clave`, `L:16` o `A:22`, `Nombre`) y ejecuta `limpiarCache` en Apps Script |
+| Agregar un estudiante | Agrega una fila en **Claves** (`ID` como `L:16` o `A:22`, `Nombre`, `Matrícula`, `Correo`) y ejecuta `limpiarCache` en Apps Script |
 | Cambiar el código de `Code.gs` | **Implementar › Gestionar implementaciones › ✏️ › Versión nueva**. La URL no cambia |
 | Reiniciar la actividad | Borra las filas de **Equipos** (deja el encabezado) |
 | Usarla con otro grupo | Reemplaza las filas de **Claves** con claves y nombres nuevos |

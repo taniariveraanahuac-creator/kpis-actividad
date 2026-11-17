@@ -50,24 +50,38 @@ async function act(action,data,msgEl){if(BUSY)return;BUSY=true;setSync('busy');
 try{var j=await call(action,data);if(msgEl)msgEl.textContent=j.ok?'':(j.error||'No se pudo guardar.');setSync('ok');return j}
 catch(e){setSync('ko');if(msgEl)msgEl.textContent='Sin conexión con el registro. Intenta de nuevo.'}
 finally{BUSY=false}}
-async function login(raw){var k=String(raw).toUpperCase().replace(/[^A-Z0-9-]/g,'');
-if(!/^([LA]\d{2}-[A-Z0-9]{6}|DOC-[A-Z0-9]{8})$/.test(k))return 'Clave incorrecta. Revisa que esté completa (ejemplo: L07-K7M2QX).';
-if(!API){var id=k[0]=='D'?'DOC':k[0]+':'+(+k.slice(1,3)-1);if(!AUTH[id]||await kdf(k,id)!==AUTH[id])return 'Clave incorrecta. Revisa que esté completa (ejemplo: L07-K7M2QX).';
-KEY=k;ROLE=id=='DOC'?'docente':'alumno';ME=ROLE=='alumno'?{rid:id,g:id[0],name:'Estudiante '+k.slice(0,3)}:null;try{sessionStorage.setItem('kpikey',k)}catch(e){}return ''}
+var BAD='No encontramos esa matrícula con ese correo. Revisa los dos datos (ejemplo: 00633240 y tu correo @anahuac.mx).';
+function b64(s){var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
+async function alumnoLocal(mat,mail){var en=new TextEncoder(),base=await crypto.subtle.importKey('raw',en.encode(mat+'|'+mail),'PBKDF2',false,['deriveKey']),
+key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:en.encode('kpi-alumno-v1'),iterations:150000,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);
+for(var i=0;i<ALUMNOS.length;i++){var u=b64(ALUMNOS[i]);try{var p=await crypto.subtle.decrypt({name:'AES-GCM',iv:u.slice(0,12)},key,u.slice(12));return JSON.parse(new TextDecoder().decode(p))}catch(e){}}return null}
+async function login(raw){var s=String(raw).trim(),mm=s.match(/^M:(\d+)\|(.+@.+)$/),k=mm?s:s.toUpperCase().replace(/[^A-Z0-9-]/g,'');
+var isKey=/^([LA]\d{2}-[A-Z0-9]{6}|DOC-[A-Z0-9]{8})$/.test(k);
+if(!mm&&!isKey)return BAD;
+if(!API){
+ if(mm){var r=await alumnoLocal(mm[1],mm[2]);if(!r)return BAD;KEY=k;ROLE='alumno';ME={rid:r.r,g:r.r[0],name:r.n}}
+ else{var id=k[0]=='D'?'DOC':k[0]+':'+(+k.slice(1,3)-1);if(!AUTH[id]||await kdf(k,id)!==AUTH[id])return k[0]=='D'?'Clave docente incorrecta.':BAD;
+  KEY=k;ROLE=id=='DOC'?'docente':'alumno';ME=ROLE=='alumno'?{rid:id,g:id[0],name:'Estudiante '+k.slice(0,3)}:null}
+ try{sessionStorage.setItem('kpikey',k)}catch(e){}return ''}
 KEY=k;var j;try{j=await call('login')}catch(e){KEY=null;return 'No hay conexión con el servidor. Revisa tu internet e intenta de nuevo.'}
-if(!j||!j.ok||!j.me){KEY=null;return 'Clave incorrecta. Revisa que esté completa (ejemplo: L07-K7M2QX).'}
+if(!j||!j.ok||!j.me){KEY=null;return k[0]=='D'?'Clave docente incorrecta.':BAD}
 ROLE=j.me.role;ME=ROLE=='alumno'?{rid:j.me.rid,g:j.me.g,name:j.me.name}:null;
 try{sessionStorage.setItem('kpikey',k)}catch(e){}startPoll();return ''}
+function cred(){var u=document.getElementById('key').value.trim(),m=document.getElementById('mail').value.trim().toLowerCase().replace(/\s+/g,'');
+if(/^(DOC|[LA]\d)/i.test(u))return u;
+var d=u.replace(/\D/g,'').replace(/^0+/,'');if(!d||!m)return '';if(m.indexOf('@')<0)m+='@anahuac.mx';return 'M:'+d+'|'+m}
 function applyRole(){var T=TEACH(),inn=T||!!ME,g=document.getElementById('gate');g.hidden=inn;document.body.classList.toggle('locked',!inn);
 ['admin','docente','navdoc','tablero','navtab'].forEach(function(i){document.getElementById(i).hidden=!T});
 var w=document.getElementById('who');w.hidden=!inn;w.textContent=T?'Docente':(ME?ME.name:'');document.getElementById('out').hidden=!inn;
 if(!inn)document.getElementById('sync').hidden=true;
 if(ME&&!T)G=ME.g;draw();renderPanel();renderDash()}
-async function doLogin(raw){var b=document.getElementById('enter'),m=document.getElementById('gmsg');b.disabled=true;m.textContent='Verificando…';
-var err=await login(raw);b.disabled=false;m.textContent=err;if(!err)applyRole()}
-document.getElementById('enter').onclick=function(){doLogin(document.getElementById('key').value)};
-document.getElementById('key').addEventListener('keydown',function(e){if(e.key=='Enter')doLogin(this.value)});
-document.getElementById('out').onclick=function(){ROLE=null;ME=null;KEY=null;SIGN=[];ROSTER={L:[],A:[]};clearInterval(TIMER);try{sessionStorage.removeItem('kpikey')}catch(e){}document.getElementById('key').value='';applyRole()};
+async function doLogin(){var b=document.getElementById('enter'),m=document.getElementById('gmsg'),c=cred();
+if(!c){m.textContent='Escribe tu matrícula y tu correo institucional.';return}
+b.disabled=true;m.textContent='Verificando…';var err=await login(c);b.disabled=false;m.textContent=err;if(!err)applyRole()}
+document.getElementById('enter').onclick=doLogin;
+['key','mail'].forEach(function(x){document.getElementById(x).addEventListener('keydown',function(e){if(e.key=='Enter')doLogin()})});
+document.getElementById('key').addEventListener('input',function(){var d=/^(DOC|[LA]\d)/i.test(this.value);document.getElementById('mailw').hidden=d});
+document.getElementById('out').onclick=function(){ROLE=null;ME=null;KEY=null;SIGN=[];ROSTER={L:[],A:[]};clearInterval(TIMER);try{sessionStorage.removeItem('kpikey')}catch(e){}document.getElementById('key').value='';document.getElementById('mail').value='';document.getElementById('mailw').hidden=false;applyRole()};
 function renderRoster(){if(!API){document.getElementById('roster').innerHTML='';return}var E=eff(),L=ROSTER[G],el=document.getElementById('roster');
 el.innerHTML='<div class="rh"><h3>Listado · '+NAME[G]+'</h3><span>'+(L.length-E.filter(function(x){return x.g==G}).length)+' sin equipo de '+L.length+'</span></div><ul class="rl">'+L.map(function(n,i){var x=E.filter(function(y){return y.rid==G+':'+i})[0];return '<li class="'+(x?'in':'')+'"><span>'+esc(n)+(ME&&ME.rid==G+':'+i?' (tú)':'')+'</span><em>'+(x?'Equipo '+x.team:'Sin equipo')+'</em></li>'}).join('')+'</ul>'}
 function renderTeams(){var E=eff(),me=ME?E.filter(function(x){return x.rid==ME.rid})[0]:null,open=isOpen(),T=TEACH();

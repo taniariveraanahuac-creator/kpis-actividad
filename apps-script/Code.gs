@@ -3,7 +3,8 @@
  * ------------------------------------------------------------
  * Este archivo va pegado en: Hoja de cálculo › Extensiones › Apps Script.
  * La hoja de cálculo debe tener tres pestañas:
- *   Claves  → Clave | ID | Nombre       (PRIVADA: nunca la subas a GitHub)
+ *   Claves  → Clave | ID | Nombre | Matrícula | Correo   (PRIVADA: nunca la subas a GitHub)
+ *             Los alumnos entran con matrícula + correo; el docente con su clave DOC-.
  *   Equipos → ID | Nombre | Grupo | Equipo | Rol | Fecha   (la llena la página)
  *   Config  → Campo | Valor             (apertura y cierre)
  * Si alguna falta, ejecuta una vez la función prepararHoja().
@@ -120,9 +121,15 @@ function state_(who) {
 }
 
 function auth_(raw) {
-  var key = String(raw || '').toUpperCase().replace(/[^A-Z0-9-]/g, '');
+  var s = String(raw || '').trim(), ks = claves_();
+  var m = s.match(/^M:(\d+)\|(.+@.+)$/);
+  if (m) {
+    var mat = m[1].replace(/^0+/, ''), mail = m[2].toLowerCase();
+    return ks.filter(function (k) { return k.mat && k.mat === mat && k.mail === mail; })[0] || null;
+  }
+  var key = s.toUpperCase().replace(/[^A-Z0-9-]/g, '');
   if (!key) return null;
-  return claves_().filter(function (k) { return k.key === key; })[0] || null;
+  return ks.filter(function (k) { return k.key === key; })[0] || null;
 }
 
 function claves_() {
@@ -131,11 +138,12 @@ function claves_() {
   var v = sheet_('Claves').getDataRange().getValues().slice(1), out = [];
   v.forEach(function (r) {
     var key = String(r[0]).trim().toUpperCase(), id = String(r[1]).trim(), name = String(r[2]).trim();
-    if (!key || !id) return;
+    var mat = String(r[3] || '').replace(/\D/g, '').replace(/^0+/, ''), mail = String(r[4] || '').trim().toLowerCase();
+    if (!id) return;
     if (id === 'DOC') out.push({ key: key, id: 'DOC', role: 'docente', name: name || 'Docente' });
     else {
       var m = id.match(/^([LA]):(\d+)$/);
-      if (m) out.push({ key: key, id: id, rid: id, g: m[1], idx: +m[2], role: 'alumno', name: name });
+      if (m) out.push({ key: key, id: id, rid: id, g: m[1], idx: +m[2], role: 'alumno', name: name, mat: mat, mail: mail });
     }
   });
   cache.put('claves', JSON.stringify(out), 300);
@@ -182,7 +190,7 @@ function json_(o) {
 /** Ejecútala una vez si falta alguna pestaña. No borra datos existentes. */
 function prepararHoja() {
   var ss = SpreadsheetApp.getActive();
-  [['Claves', ['Clave', 'ID', 'Nombre']], ['Equipos', ['ID', 'Nombre', 'Grupo', 'Equipo', 'Rol', 'Fecha']], ['Config', ['Campo', 'Valor']]]
+  [['Claves', ['Clave', 'ID', 'Nombre', 'Matrícula', 'Correo']], ['Equipos', ['ID', 'Nombre', 'Grupo', 'Equipo', 'Rol', 'Fecha']], ['Config', ['Campo', 'Valor']]]
     .forEach(function (d) {
       var sh = ss.getSheetByName(d[0]) || ss.insertSheet(d[0]);
       if (!sh.getRange(1, 1).getValue()) sh.getRange(1, 1, 1, d[1].length).setValues([d[1]]).setFontWeight('bold');
