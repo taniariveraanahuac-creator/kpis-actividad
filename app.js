@@ -50,7 +50,7 @@ async function act(action,data,msgEl){if(BUSY)return;BUSY=true;setSync('busy');
 try{var j=await call(action,data);if(msgEl)msgEl.textContent=j.ok?'':(j.error||'No se pudo guardar.');setSync('ok');return j}
 catch(e){setSync('ko');if(msgEl)msgEl.textContent='Sin conexión con el registro. Intenta de nuevo.'}
 finally{BUSY=false}}
-var BAD='No encontramos esa matrícula con ese correo. Revisa los dos datos (ejemplo: 00633240 y tu correo @anahuac.mx).';
+var BAD='No encontramos esa matrícula con ese correo. Revisa los dos datos (ejemplo: 00612345 y tu correo @anahuac.mx).';
 function b64(s){var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
 async function alumnoLocal(mat,mail){var en=new TextEncoder(),base=await crypto.subtle.importKey('raw',en.encode(mat+'|'+mail),'PBKDF2',false,['deriveKey']),
 key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:en.encode('kpi-alumno-v1'),iterations:150000,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);

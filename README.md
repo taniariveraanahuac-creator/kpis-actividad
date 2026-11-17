@@ -62,7 +62,7 @@ API_URL: 'https://script.google.com/macros/s/XXXXXXXX/exec',
 
 | Quién | Cómo entra | Qué puede hacer |
 |---|---|---|
-| 🎓 Estudiante | **Su matrícula + su correo institucional** (ej. `00633240` y `nombre@anahuac.mx`). Ya no hay que repartir claves | Ver solo su grupo, unirse a un equipo con un rol, salir, descargar su macro |
+| 🎓 Estudiante | **Su matrícula + su correo institucional** (ej. `00612345` y `nombre@anahuac.mx`). Ya no hay que repartir claves | Ver solo su grupo, unirse a un equipo con un rol, salir, descargar su macro |
 | 🧑‍🏫 Docente | Clave `DOC-XXXXXXXX` | Ver los dos grupos, asignar o mover estudiantes, fijar el horario y descargar el CSV |
 
 - ⏰ **Horario:** el docente fija la apertura y el cierre en *Calendario y horario*. Fuera de ese horario los estudiantes no pueden inscribirse ni descargar.
